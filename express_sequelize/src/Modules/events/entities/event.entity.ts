@@ -6,6 +6,7 @@ import {
   PrimaryKey
 } from 'sequelize-typescript';
 import { ModelAttributeColumnOptions } from 'sequelize';
+import Workshop from './workshop.entity';
 
 @Table({
   updatedAt: false,
@@ -22,3 +23,6 @@ export default class Event extends Model {
   @Column({ type: 'datetime' } as ModelAttributeColumnOptions)
   declare createdAt: Date;
 }
+
+Event.hasMany(Workshop,{as:'workshops'})
+

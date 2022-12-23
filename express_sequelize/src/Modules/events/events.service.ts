@@ -88,10 +88,14 @@ export class EventsService {
 
   async getEventsWithWorkshops() {
     const today =  new Date().toISOString().slice(0,10);
-    return await Workshop.findAll({
+    return await Event.findAll({
+      include:[{
+        model:Workshop,
+        as:'workshops' 
+      }],
       where:{
         start:{
-          [Op.gte]:today
+          [Op.gt]:today
         }
       }
     })
@@ -164,6 +168,13 @@ export class EventsService {
     ```
      */
   async getFutureEventWithWorkshops() {
-    throw new Error('TODO task 2');
+    const today =  new Date().toISOString().slice(0,10);
+    return await Workshop.findAll({
+      where:{
+        start:{
+          [Op.gt]:today
+        }
+      }
+    })
   }
 }

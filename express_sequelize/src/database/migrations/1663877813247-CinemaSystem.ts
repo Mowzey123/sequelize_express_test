@@ -1,4 +1,5 @@
-import { QueryInterface } from 'sequelize';
+import { literal,QueryInterface } from 'sequelize';
+import { ModelAttributes } from 'sequelize/types/model';
 
 export default {
   /**
@@ -31,8 +32,86 @@ export default {
    * As a cinema owner I don't want to configure the seating for every show
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  up: (queryInterface: QueryInterface): Promise<void> => {
-    throw new Error('TODO: implement migration in task 4');
+  up: async (queryInterface: QueryInterface): Promise<void> => {
+    // throw new Error('TODO: implement migration in task 4');
+    await queryInterface.createTable('movies', {
+      id: {
+        type: 'integer',
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      name: { type: 'varchar' },
+      url: { type: 'varchar' },
+      time : {type:'time'},
+      date : {type:'date'},
+      availableSeats:{type:'integer'},
+      showRoomId:{type:'integer'},
+      price:{type:'integer'},
+      createdAt: {
+        type: 'timestamp',
+        defaultValue: literal('CURRENT_TIMESTAMP'),
+      },
+      updatedAt: {
+        type: 'timestamp',
+        defaultValue: literal('CURRENT_TIMESTAMP'),
+      },
+    } as ModelAttributes);
+
+    await queryInterface.createTable('show_rooms', {
+      id: {
+        type: 'integer',
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      show_room_name: { type: 'varchar' },
+      capacity: {type:'integer'},
+      createdAt: {
+        type: 'timestamp',
+        defaultValue: literal('CURRENT_TIMESTAMP'),
+      },
+      updatedAt: {
+        type: 'timestamp',
+        defaultValue: literal('CURRENT_TIMESTAMP'),
+      },
+    } as ModelAttributes);
+
+    await queryInterface.createTable('seats', {
+      id: {
+        type: 'integer',
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      number: { type: 'integer' },
+      row: { type: 'integer' },
+      show_room_id: { type: 'integer' },
+      seat_type: { type: 'varchar' },
+      createdAt: {
+        type: 'timestamp',
+        defaultValue: literal('CURRENT_TIMESTAMP'),
+      },
+      updatedAt: {
+        type: 'timestamp',
+        defaultValue: literal('CURRENT_TIMESTAMP'),
+      },
+    } as ModelAttributes);
+
+    await queryInterface.createTable('seat_discounts', {
+      id: {
+        type: 'integer',
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      parcentageDiscount: { type: 'integer' },
+      seat_type: { type: 'varchar' },
+      createdAt: {
+        type: 'timestamp',
+        defaultValue: literal('CURRENT_TIMESTAMP'),
+      },
+      updatedAt: {
+        type: 'timestamp',
+        defaultValue: literal('CURRENT_TIMESTAMP'),
+      },
+    } as ModelAttributes);
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

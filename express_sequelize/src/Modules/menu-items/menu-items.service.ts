@@ -78,6 +78,15 @@ export class MenuItemsService {
   */
 
   async getMenuItems() {
-    return await MenuItem.findAll({})
+    return await MenuItem.findAll({
+        include: [{
+            model: MenuItem,
+            as: 'children',
+            include: [{
+                model: MenuItem,
+                as: 'children',
+            }]
+        }]
+    })
   }
 }

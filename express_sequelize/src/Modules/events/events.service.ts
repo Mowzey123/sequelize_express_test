@@ -87,17 +87,8 @@ export class EventsService {
      */
 
   async getEventsWithWorkshops() {
-    const today =  new Date().toISOString().slice(0,10);
     return await Event.findAll({
-      include:[{
-        model:Workshop,
-        as:'workshops' 
-      }],
-      where:{
-        start:{
-          [Op.gt]:today
-        }
-      }
+      include:[Workshop],
     })
   }
 
@@ -169,12 +160,15 @@ export class EventsService {
      */
   async getFutureEventWithWorkshops() {
     const today =  new Date().toISOString().slice(0,10);
-    return await Workshop.findAll({
-      where:{
-        start:{
-          [Op.gt]:today
+    return await Event.findAll({
+      include:[{
+        model:Workshop,
+        where:{
+            start:{
+            [Op.gt]:today
+          }
         }
-      }
+      }],
     })
   }
 }

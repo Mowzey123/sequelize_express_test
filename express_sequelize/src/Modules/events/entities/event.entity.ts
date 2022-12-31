@@ -3,7 +3,8 @@ import {
   Column,
   Model,
   AutoIncrement,
-  PrimaryKey
+  PrimaryKey,
+  HasMany
 } from 'sequelize-typescript';
 import { ModelAttributeColumnOptions } from 'sequelize';
 import Workshop from './workshop.entity';
@@ -22,7 +23,7 @@ export default class Event extends Model {
 
   @Column({ type: 'datetime' } as ModelAttributeColumnOptions)
   declare createdAt: Date;
+
+  @HasMany(() => Workshop)
+  workshops: Workshop[];
 }
-
-Event.hasMany(Workshop,{as:'workshops'})
-
